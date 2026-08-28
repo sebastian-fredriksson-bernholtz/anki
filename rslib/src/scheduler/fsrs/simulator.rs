@@ -107,6 +107,9 @@ fn create_review_priority_fn(
         Day | DayThenDeck | DeckThenDay => {
             wrap!(|c: &fsrs::Card| c.scheduled_due() as i32)
         }
+        DescendingDueDate => {
+            wrap!(|c: &fsrs::Card| (c.scheduled_due() as i32).saturating_neg())
+        }
 
         // Random ordering
         Random => {

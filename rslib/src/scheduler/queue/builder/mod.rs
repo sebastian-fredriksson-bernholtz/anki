@@ -480,6 +480,41 @@ mod test {
         Ok(())
     }
 
+    #[test]
+    fn review_queue_due_date_ordering() -> Result<()> {
+        let mut col = Collection::new();
+        let mut deck = col.get_or_create_normal_deck("Default")?;
+        let nt = col.get_notetype_by_name("Basic")?.unwrap();
+        let mut cards = vec![];
+
+        for due in [-3, -1, -2] {
+            let mut note = nt.new_note();
+            note.set_field(0, "foo")?;
+            note.id.0 = 0;
+            col.add_note(&mut note, deck.id)?;
+            let mut card = col.storage.get_card_by_ordinal(note.id, 0)?.unwrap();
+            card.due = due;
+            card.ctype = CardType::Review;
+            card.queue = CardQueue::Review;
+            cards.push(card);
+        }
+        col.update_cards_maybe_undoable(cards, false)?;
+
+        col.set_deck_review_order(&mut deck, ReviewCardOrder::Day);
+        assert_eq!(
+            col.queue_as_due_and_ivl(deck.id),
+            vec![(-3, 0), (-2, 0), (-1, 0)]
+        );
+
+        col.set_deck_review_order(&mut deck, ReviewCardOrder::DescendingDueDate);
+        assert_eq!(
+            col.queue_as_due_and_ivl(deck.id),
+            vec![(-1, 0), (-2, 0), (-3, 0)]
+        );
+
+        Ok(())
+    }
+
     impl Collection {
         fn card_queue_len(&mut self) -> usize {
             self.get_queued_cards(5, false).unwrap().cards.len()

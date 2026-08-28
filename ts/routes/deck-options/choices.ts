@@ -87,6 +87,10 @@ export function reviewOrderChoices(
                 value: DeckConfig_Config_ReviewCardOrder.DECK_THEN_DAY,
             },
             {
+                label: tr.deckConfigSortOrderLeastOverdueFirst(),
+                value: DeckConfig_Config_ReviewCardOrder.DESCENDING_DUE_DATE,
+            },
+            {
                 label: tr.deckConfigSortOrderAscendingIntervals(),
                 value: DeckConfig_Config_ReviewCardOrder.INTERVALS_ASCENDING,
             },

@@ -227,6 +227,8 @@ deck-config-sort-order-due-date-then-random = Due date, then random
 deck-config-sort-order-due-date-then-deck = Due date, then deck
 # Sort the cards first by deck, then by due date in ascending order (oldest due date to newest) within the same deck.
 deck-config-sort-order-deck-then-due-date = Deck, then due date
+# Sort the cards by overdue amount in ascending order (least overdue to most overdue).
+deck-config-sort-order-least-overdue-first = Least overdue first
 # Sort the cards by the interval, in ascending order (shortest to longest).
 deck-config-sort-order-ascending-intervals = Ascending intervals
 # Sort the cards by the interval, in descending order (longest to shortest).
